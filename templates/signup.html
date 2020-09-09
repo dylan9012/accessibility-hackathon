@@ -8,6 +8,14 @@
                 </div>
             </div>
             <br/>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select your age</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                    {% for age in range(18, 100) %}
+                        <option>{{ age }}</option>
+                    {% endfor %}
+                </select>
+            </div><br/>
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">@</span>
