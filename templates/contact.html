@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Contact us{% endblock %}
+{% block content %}
+    <div class="container">
+        <br/><h1>Contact the team!</h1><br/>
+        <ul>
+            <p>
+                {% for member in team %}
+                    <li>{{ member }}</li>
+                {% endfor %}
+            <p>
+        </ul>
+    </div>
+{% endblock %}
