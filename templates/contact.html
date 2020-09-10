@@ -3,12 +3,12 @@
 {% block content %}
     <div class="container">
         <br/><h1>Contact the team!</h1><br/>
-        <ul>
+        <ol>
             <p>
                 {% for member in team %}
-                    <li>{{ member }}</li>
+                    <li>{{ member }}</li><br/>
                 {% endfor %}
             <p>
-        </ul>
+        </ol>
     </div>
 {% endblock %}
