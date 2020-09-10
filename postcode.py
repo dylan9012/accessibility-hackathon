@@ -1,5 +1,6 @@
-import requests
 from math import *
+
+import requests
 
 
 class GreatCircleDistance:
@@ -32,4 +33,4 @@ class GreatCircleDistance:
 
 
 if __name__ == "__main__":
-    print(GreatCircleDistance("E6 3SQ", "E1 0LB").get_distance())  # - Test
+    pass
