@@ -19,17 +19,20 @@ exampleUser = ["1", "Dylan Barker", "18", "Vision impairment", "E3 3NR", "Disabl
 # cursorclass=MySQLdb.cursors.Dictcursor
 # )
 
+class Account:
+    matches = []
+
 
 @app.route('/')
 def index():
     if "email" in session:
         return redirect(url_for('dashboard'))
-    return render_template('index.html')
+    return render_template('one/index.html')
 
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('one/about.html')
 
 
 @app.route('/contact')
@@ -38,7 +41,7 @@ def contact():
             "Eyuael Berhe: eyuael.berhe@gmail.com | Warwick University",
             "Isaac Addo: isaacaddo1714@gmail.com | King's College London",
             "Muhriz Tauseef: muhriztauseef82@gmail.com | King's College London"]
-    return render_template('contact.html', team=team)
+    return render_template('one/contact.html', team=team)
 
 
 @app.route('/signup', methods=["GET", "POST"])
@@ -58,7 +61,7 @@ def signup():
         for i in entries:
             if not i or i == "Select":
                 error = "Please fill in all fields"
-                return render_template('signup.html', error=error, name=name, user_age=age, number=number, s_d=s_d,
+                return render_template('one/signup.html', error=error, name=name, user_age=age, number=number, s_d=s_d,
                                        gender=gender, email=email, postcode=postcode, role=role)
         # with connection().cursor as cur:
         # signup_query = """INSERT INTO Account (Name, Age, Needs_or_Specialty, Location, Carer_or_client, Email,
@@ -68,8 +71,8 @@ def signup():
         # cur.commit()
 
         success = "Sign up has succeeded, please login"
-        return render_template('login.html', success=success)
-    return render_template('signup.html')
+        return render_template('one/login.html', success=success)
+    return render_template('one/signup.html')
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -82,7 +85,7 @@ def login():
         for i in entries:
             if not i:
                 error = "Please fill in all fields"
-                return render_template('login.html', error=error, email=email)
+                return render_template('one/login.html', error=error, email=email)
         # with connection().cursor as cur:
         # login_query = """SELECT Password, Email
         #                       FROM Account
@@ -100,9 +103,9 @@ def login():
             return redirect(request.args.get("dashboard") or url_for("dashboard"))
         else:
             error = "Email & Password combination does not exist"
-            return render_template('login.html', error=error)
+            return render_template('one/login.html', error=error)
 
-    return render_template('login.html')
+    return render_template('one/login.html')
 
 
 @app.route('/dashboard', methods=["GET", "POST"])
@@ -112,10 +115,10 @@ def dashboard():
         title = "Welcome " + email
     else:
         return redirect(url_for('index'))
-    return render_template('dashboard.html', title=title)
+    return render_template('two/dashboard.html', title=title)
 
 
-@app.route('/logout', methods=["GET", "POST"])
+@app.route('/logout', methods=["GET"])
 def logout():
     session.pop('email', None)
     return redirect(url_for('index'))
@@ -124,19 +127,19 @@ def logout():
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
     title = "Profile"
-    return render_template('profile.html', title=title)
+    return render_template('two/profile.html', title=title)
 
 
 @app.route('/matches', methods=["GET", "POST"])
 def matches():
     title = "Matches"
-    return render_template('matches.html', title=title)
+    return render_template('two/matches.html', title=title)
 
 
 @app.route('/messenger', methods=["GET", "POST"])
 def messenger():
     title = "Messenger"
-    return render_template('messenger.html', title=title)
+    return render_template('two/messenger.html', title=title)
 
 
 if __name__ == "__main__":
