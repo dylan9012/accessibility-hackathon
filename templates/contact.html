@@ -2,11 +2,12 @@
 {% block title %}Contact us{% endblock %}
 {% block content %}
     <div class="container">
-        <br/><h1>Contact the team!</h1><br/>
-            <p>
-                {% for member in team %}
-                    <li>{{ member }}</li><br/>
-                {% endfor %}
-            <p>
+        <br/>
+        <h1>Contact the team!</h1><br/>
+        <p>
+            {% for member in team %}
+                <li>{{ member }}</li><br/>
+            {% endfor %}
+        <p>
     </div>
 {% endblock %}

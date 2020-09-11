@@ -7,7 +7,7 @@
                 {{ error }}
             </div>
         {% endif %}
-        <form action="/signup" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="col">
                     <label for="exampleFormControlSelect1">Full name</label>
@@ -51,8 +51,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" name="password"
-                       value="{{ password }}">
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password">
             </div>
             <div class="form-row">
                 <div class="col">
@@ -70,21 +69,15 @@
             </div>
             <br/>
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Specialtiy/Disability</label>
+                <label for="exampleFormControlSelect1">Speciality/Disability</label>
                 <select class="form-control" id="exampleFormControlSelect1" name="speciality_or_disabled">
+                    <option>Select</option>
                     <option>Vision impairment</option>
                     <option>Deaf or hard of hearing</option>
                     <option>Autism Spectrum Disorder</option>
                     <option>Attention Deficit Hyperactivity Disorder (ADHD)</option>
                     <option>Physical disabilities</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <label>Select image</label>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="image" id="image">
-                    <label class="custom-file-label" for="image">Upload</label>
-                </div>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary">Submit</button>
