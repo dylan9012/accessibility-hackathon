@@ -112,7 +112,8 @@ def login():
 def dashboard():
     if "email" in session:
         email = session['email']
-        title = "Welcome " + email
+        name = email[:5].title()  # - For exampleUser specifically
+        title = "Welcome " + name
     else:
         return redirect(url_for('index'))
     return render_template('two/dashboard.html', title=title)
@@ -139,7 +140,7 @@ def matches():
 @app.route('/messenger', methods=["GET", "POST"])
 def messenger():
     title = "Messenger"
-    return render_template('two/messenger.html', title=title)
+    return render_template('two/grant.html', title=title)
 
 
 if __name__ == "__main__":
