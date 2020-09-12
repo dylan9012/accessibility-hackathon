@@ -29,7 +29,7 @@ class GreatCircleDistance:
         return radians(data["result"]["latitude"]), radians(data["result"]["longitude"])
 
     def get_distance(self):
-        return "{:.1f}".format(self._distance * GreatCircleDistance.__R)
+        return round(self._distance * GreatCircleDistance.__R)
 
 
 if __name__ == "__main__":
