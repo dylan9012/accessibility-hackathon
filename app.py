@@ -8,7 +8,7 @@ app.secret_key = 'e471e07eb0c2977afd4f398907cb78f8'
 
 exampleUser = ["1", "Dylan Barker", "18", "Vision impairment", "E3 3NR", "Disabled", "dylanbarker59@gmail.com", "male",
                "07756756382", "destiny1"]
-matches = ["", "Marcus Biller", "Breann Delee", "Chu Bertolini", "Eliseo Spell", "Onita Coffin", "Maribeth Langlais",
+matches = ["Marcus Biller", "Breann Delee", "Chu Bertolini", "Eliseo Spell", "Onita Coffin", "Maribeth Langlais",
            "Sharyn Turck", "Gil Silvia", "Brande Paiva", "Sierra Horney", "Antony Melcher", "Mia Dill",
            "Leora Deherrera", "Aleida Ghee", "Ervin Phou", "Missy Vandergrift", "Dawne Freshwater", "Lyle Arends",
            "Ora Kimberling", "Carolee Saini", "Leontine Luczak", "Tijuana Aubuchon", "Maryland Hutchinson",
@@ -25,15 +25,13 @@ non_matches = ["Stacia Lucas", "Heike Thrash", "Sari Kirkbride", "Risa Welke", "
                "Beatriz Fritch", "Salvador Kenton", "Freddie Jovel", "Lyle Saleh"]
 
 
-# def create_connection():
-#   return MySQLdb.connect(
-#               host='dylan9012.mysql.pythonanywhere-services.com',
-#               user='dylan9012',
-#               password='destiny1',
-#               db='dylan9012$default',
-#               cursorclass=MySQLdb.cursors.Dictcursor
-#   )
-
+# db = MySQLdb.connect(host='dylan9012.mysql.pythonanywhere-services.com',
+#                      user='dylan9012',
+#                      password='destiny1',
+#                      db='dylan9012$default',
+#                      )
+#
+# cur = db.cursor()
 
 @app.route('/')
 def index():
@@ -59,7 +57,6 @@ def contact():
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        entries = []
         name = request.form.get("name")
         age = request.form.get("age")
         number = request.form.get("number")
@@ -67,23 +64,16 @@ def signup():
         email = request.form.get("email")
         password = request.form.get("password")
         postcode = request.form.get("postcode")
-        role = request.form.get("role")
+        role = "true" if request.form.get("role") == "carer" else "false"
         s_d = request.form.get("speciality_or_disabled")
-        entries.extend((name, age, number, gender, email, password, postcode, role, s_d))
-        for i in entries:
+        ranges = request.form.get("range")
+        for i in (name, age, number, gender, email, password, postcode, role, s_d, ranges):
             if not i or i == "Select":
                 flash("Please fill in all fields", "danger")
                 return render_template('one/signup.html', name=name, user_age=age, number=number, s_d=s_d, gender=gender
-                                       , email=email, postcode=postcode, role=role)
+                                       , email=email, postcode=postcode, role=role, ranges=ranges)
 
         # - Check if email already used
-
-        # with connection().cursor as cur:
-        # signup_query = """INSERT INTO Account (Name, Age, Needs_or_Specialty, Location, Carer_or_client, Email,
-        # Gender, Phone_number, password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-        # var_tuple = (name, age, s_d, postcode, role, email, gender, number, password)
-        # cur.execute(signup_query, var_tuple)
-        # cur.commit()
 
         flash("Sign up has succeeded, please login", "success")
         return redirect(url_for('login'))
@@ -101,14 +91,6 @@ def login():
             if not i:
                 flash("Please fill in all fields", "danger")
                 return render_template('one/login.html', email=email)
-
-        # with connection().cursor as cur:
-        #   login_query = """SELECT Password, Email FROM Account WHERE Email = %s"""
-        #   try:
-        #       cur.execute(signup_query, email)
-        #       result = cur.fetchall()
-        #   except(MySQLdb.Error, MySQLdb.Warning):
-        #       error = "Email & Password combination does not exist"
 
         if email in exampleUser and password in exampleUser:
             session['email'] = email

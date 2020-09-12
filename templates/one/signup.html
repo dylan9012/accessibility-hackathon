@@ -13,8 +13,8 @@
                     <label for="exampleFormControlSelect1">Age</label>
                     <select class="form-control" id="exampleFormControlSelect1" name="age">
                         <option>Select</option>
-                        {% for age in range(18, 100) %}
-                            <option>{{ age }}</option>
+                        {% for ages in range(18, 100) %}
+                            <option>{{ ages }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -63,16 +63,22 @@
                 </div>
             </div>
             <br/>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Speciality/Disability</label>
-                <select class="form-control" id="exampleFormControlSelect1" name="speciality_or_disabled">
-                    <option>Select</option>
-                    <option>Vision impairment</option>
-                    <option>Deaf or hard of hearing</option>
-                    <option>Autism Spectrum Disorder</option>
-                    <option>Attention Deficit Hyperactivity Disorder (ADHD)</option>
-                    <option>Physical disabilities</option>
-                </select>
+            <div class="form-row">
+                <div class="col">
+                    <label for="exampleFormControlSelect1">Speciality/Disability</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="speciality_or_disabled">
+                        <option>Select</option>
+                        <option>Vision impairment</option>
+                        <option>Deaf or hard of hearing</option>
+                        <option>Autism Spectrum Disorder</option>
+                        <option>Attention Deficit Hyperactivity Disorder (ADHD)</option>
+                        <option>Physical disabilities</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="exampleFormControlSelect1">Range willing to travel (in km)</label>
+                    <input type="text" class="form-control" name="range" value="{{ ranges }}">
+                </div>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary">Submit</button>
