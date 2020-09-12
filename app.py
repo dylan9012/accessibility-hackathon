@@ -119,13 +119,6 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/profile', methods=["GET", "POST"])
-def profile():
-    if "email" not in session:
-        return redirect(url_for('login'))
-    return render_template('two/profile.html')
-
-
 @app.route('/matches', methods=["GET", "POST"])
 def matches():
     if "email" not in session:
@@ -133,11 +126,11 @@ def matches():
     return render_template('two/matches.html')
 
 
-@app.route('/grant', methods=["GET"])
-def grant():
+@app.route('/profile', methods=["GET"])
+def profile():
     if "email" not in session:
         return redirect(url_for('login'))
-    return render_template('two/grant.html')
+    return render_template('two/profile.html')
 
 
 if __name__ == "__main__":
