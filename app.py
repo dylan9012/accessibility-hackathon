@@ -83,10 +83,20 @@ def login():
 @app.route('/dashboard', methods=["GET", "POST"])
 def dashboard():
     if "id" in session:
-        name = exampleUser[1]  # - Remove this
+        if "d-page" in session:
+            session["d-page"] += 1
+            name = potential_matches[session["d-page"]][0]
+            gender = potential_matches[session["d-page"]][1]
+            age = potential_matches[session["d-page"]][2]
+            s_d = potential_matches[session["d-page"]][3]
+            distance = potential_matches[session["d-page"]][4]
+            
+
+        else:
+            ...
     else:
         return redirect(url_for('login'))
-    return render_template('two/dashboard.html', name=name)
+    return render_template('two/dashboard.html', name=exampleUser[1])
 
 
 @app.route('/logout')
