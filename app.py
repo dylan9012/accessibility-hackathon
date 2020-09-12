@@ -83,16 +83,14 @@ def signup():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        entries = []
         email = request.form.get("email")
         password = request.form.get("password")
-        entries.extend((email, password))
-        for i in entries:
+        for i in (email, password):
             if not i:
                 flash("Please fill in all fields", "danger")
                 return render_template('one/login.html', email=email)
 
-        if email in exampleUser and password in exampleUser:
+        if email in exampleUser and password in exampleUser:  # - Replace this with db query
             session['email'] = email
             return redirect(request.args.get("dashboard") or url_for("dashboard"))
         else:
@@ -106,7 +104,7 @@ def login():
 def dashboard():
     if "email" in session:
         email = session['email']
-        name = email[:5].title()  # - For exampleUser specifically
+        name = email[:5].title()  # - Remove this
     else:
         return redirect(url_for('login'))
     return render_template('two/dashboard.html', name=name)
