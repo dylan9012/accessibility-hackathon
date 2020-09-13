@@ -1,8 +1,33 @@
 {% extends 'two/layout.html' %}
 {% block title %}Dashboard{% endblock %}
 {% block dashboard %}
-    <div style="text-align: center;"><br/>
-        <h2>Welcome {{ name }}</h2>
-        <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
-    </div>
+    <br/><br/><br/><br/><br/><br/>
+    {% if not end %}
+        <div class="container bootstrap snippets">
+            <div style="text-align: center;"><br/>
+                <img class="img-thumbnail" src="/static/{{ gender }}.jpg">
+                <p>
+                    Name: {{ name }} <br/>
+                    Gender: {{ gender }} <br/>
+                    Age: {{ age }} <br/>
+                    Distance away: {{ distance }}km <br/>
+                </p>
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Select your decision</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="decision">
+                            <option>Match</option>
+                            <option>No match</option>
+                        </select>
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <div style="text-align: center;"><br/>
+            <h2>No more suggested matches</h2>
+        </div>
+    {% endif %}
 {% endblock %}

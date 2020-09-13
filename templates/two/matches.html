@@ -2,39 +2,23 @@
 {% block title %}Matches{% endblock %}
 {% block dashboard %}
     <div class="container bootstrap snippets">
-        <br/>
         <div class="jumbotron list-content">
             <ul class="list-group">
                 <li class="list-group-item title">
-                    Your matches
+                    Matches with contact details
                 </li>
-                <li class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
-                    <label class="name" style="margin:10px;">
-                        Eyauel Berhe
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_1.jpg">
-                    <label class="name" style="margin:10px;">
-                        Isaac Addo
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li class="list-group-item text-left">
-                    <img class="img-thumbnail" src="https://bootdey.com/img/Content/user_2.jpg">
-                    <label class="name" style="margin:10px;">
-                        Muhriz Tauseef
-                    </label>
-                    <div class="break"></div>
-                </li>
-                <li class="list-group-item text-left">
-                    <a class="btn btn-block btn-primary">
-                        <i class="glyphicon glyphicon-refresh"></i>
-                        Next page...
-                    </a>
-                </li>
+                {% for user in matches %}
+                    <li class="list-group-item text-left">
+                        <img class="img-thumbnail" src="/static/{{ user[2] }}.jpg"
+                             style="position: relative; top: -35px;">
+                        <label class="name" style="margin:10px;">
+                            Name: {{ user[1] }} <br/>
+                            Gender: {{ user[2] }} <br/>
+                            Email: {{ user[3] }} <br/>
+                            Phone number: {{ user[4] }}
+                        </label>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>

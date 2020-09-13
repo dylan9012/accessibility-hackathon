@@ -1,0 +1,43 @@
+{% extends 'two/layout.html' %}
+{% block title %}Requests{% endblock %}
+{% block dashboard %}
+    {% if not end %}
+        <div class="container bootstrap snippets">
+            <div class="jumbotron list-content">
+                <ul class="list-group">
+                    <li class="list-group-item title">
+                        Your match requests
+                    </li>
+                    {% for user in users %}
+                        <li class="list-group-item text-left">
+                            <img class="img-thumbnail" src="/static/{{ user[2] }}.jpg"
+                                 style="position: relative; top: -35px;">
+                            <label class="name" style="margin:10px;">
+                                Name: {{ user[1] }} <br/>
+                                Gender: {{ user[2] }} <br/>
+                                Age: {{ user[3] }} <br/>
+                                Distance away: {{ user[4] }}km
+                            </label>
+                            <form action="" method="POST">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Select your decision</label>
+                                    <select class="form-control" id="exampleFormControlSelect1"
+                                            name="decision{{ user[0] }}">
+                                        <option>Select</option>
+                                        <option>Accept</option>
+                                        <option>Decline</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div style="text-align: center;"><br/>
+            <h2>No more requests</h2>
+        </div>
+    {% endif %}
+{% endblock %}

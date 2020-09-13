@@ -2,6 +2,18 @@
 {% block title %}Profile{% endblock %}
 {% block dashboard %}
     <div class="container"><br/>
-        <h1>Your details</h1>
+        <h1>Your details</h1><br/><br/>
+        <p>
+            Name: {{ name }}<br/>
+            Age: {{ age }}<br/>
+            {{ s_d }}<br/>
+            Location: {{ location }}<br/>
+            Role: {{ role }}<br/>
+            Email: {{ email }}<br/>
+            Gender: {{ gender }}<br/>
+            Number: {{ number }}<br/>
+            Password: {{ password }}
+
+        </p>
     </div>
 {% endblock %}
