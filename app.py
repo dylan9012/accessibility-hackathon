@@ -114,7 +114,7 @@ def dashboard():
         else:
             ...  # Add entry to like table saying not interested
 
-    if "page" in session:
+    if "page" in session and request.method == "POST":
         session["page"] += 1
     else:
         session["page"] = 0
