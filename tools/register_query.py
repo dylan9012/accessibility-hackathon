@@ -14,7 +14,6 @@ class ValidateSignUp:
         self.carer_or_client = carer_or_client
         self.gender = gender
         self.phone_number = phone_number
-        self.photo = '01'
         self.password = password
 
     def sign_up(self):
@@ -40,8 +39,7 @@ class ValidateSignUp:
             db.close()
             return False
         else:
-            su = (
-                    'INSERT INTO Account VALUES (NULL, "' + self.name + '", "' + self.age + '", "' + self.needs_or_specialty + '", "' + self.max_distance + '", "' + self.location + '", "' + self.carer_or_client + '", "' + self.email + '", "' + self.gender + '", "' + self.phone_number + '", "' + self.photo + '", "' + self.password + '");')
+            su = ('INSERT INTO Account VALUES (NULL, "' + self.name + '", "' + self.age + '", "' + self.needs_or_specialty + '", "' + self.max_distance + '", "' + self.location + '", "' + self.carer_or_client + '", "' + self.email + '", "' + self.gender + '", "' + self.phone_number + '", "' + self.photo + '", "' + self.password + '");')
             cur.execute(su)
             db.close()
             return True
