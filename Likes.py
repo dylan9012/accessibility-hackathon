@@ -42,4 +42,8 @@ class FindLikes:
         else:
             db.close()
             return False
+        
+if __name__ == "__main__":
+    pass
+    
 
