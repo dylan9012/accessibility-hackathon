@@ -34,10 +34,11 @@ class FindLikes:
         print(res)
         print([self.LikerID, self.LikedID])
         if res == [int(self.LikerID), int(self.LikedID)]:
-            cur.execute('SELECT Name, Gender, Age, Location, UserID FROM Account WHERE UserID = ' + self.LikedID + ';')
+            cur.execute(
+                'SELECT UserID, Name, Gender, Email, Phone_number FROM Account WHERE UserID = ' + self.LikedID + ';')
             i = cur.fetchall()
             db.close()
-            return i
+            return list(i[0])
 
         else:
             db.close()

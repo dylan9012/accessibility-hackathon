@@ -1,22 +1,22 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 
+from tools.GetRequests import GetRequest
+from tools.Likes import FindLikes
+from tools.Matches import FindMatches
+from tools.UserInfo import GetInfo
+from tools.login_query import ValidateLogIn
+from tools.register_query import ValidateSignUp
+
 app = Flask(__name__)
 wsgi_app = app.wsgi_app
 app.secret_key = 'e471e07eb0c2977afd4f398907cb78f8'
 
-exampleUser = ["1", "Dylan Barker", "18", "Vision impairment", "E3 3NR", "Disabled", "dylanbarker59@gmail.com", "male",
-               "07756756382", "destiny1"]
-potential_matches = [["1", "Eyuael Berhe", "Male", "18", "5"],
-                     ["2", "Isaac Addo", "Male", "18", "6"],
-                     ["3", "Muhriz Tauseef", "Female", "18", "7"]]
+logged_user = []
+potential_matches = []
 
-likes = [["1", "Eyuael Berhe", "Male", "18", "5"],
-         ["2", "Isaac Addo", "Male", "18", "6"],
-         ["3", "Muhriz Tauseef", "Female", "18", "7"]]
+likes = []
 
-matched = [["1", "Eyuael Berhe", "Male", "eyuaelberhe@gmail.com", "07765765382"],
-           ["2", "Isaac Addo", "Male", "isaacaddo1714@gmail.com", "07962390386"],
-           ["3", "Muhriz Tauseef", "Female", "muhriztauseef82@gmail.com", "0794349631"]]
+matched = []
 
 
 @app.route('/')
@@ -59,7 +59,9 @@ def signup():
                 return render_template('one/signup.html', name=name, number=number, email=email, postcode=postcode,
                                        ranges=ranges)
 
-        # Check if email already used
+        if not ValidateSignUp(email, name, age, s_d, ranges, postcode, role, gender, number, password).sign_up():
+            flash("Email has already been used, try another")
+            return redirect(url_for('signup'))
 
         flash("Sign up has succeeded, please login", "success")
         return redirect(url_for('login'))
@@ -68,6 +70,7 @@ def signup():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    global logged_user
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -76,9 +79,10 @@ def login():
                 flash("Please fill in all fields", "danger")
                 return render_template('one/login.html', email=email)
 
-        if email in exampleUser and password in exampleUser:  # Replace this with db query
-            # Add to user list
-            session['id'] = exampleUser[0]
+        identity = ValidateLogIn(email, password).log_in()
+        if identity:
+            logged_user = GetInfo(identity).Info()
+            session['id'] = logged_user[0]
             return redirect(request.args.get("dashboard") or url_for("dashboard"))
         else:
             flash("Email and password combination does not exist", "danger")
@@ -95,22 +99,19 @@ def logout():
 
 
 def get_information():
-    name = potential_matches[session["page"]][1]
-    gender = potential_matches[session["page"]][2]
-    age = potential_matches[session["page"]][3]
-    distance = potential_matches[session["page"]][4]
-    return name, gender, age, distance
+    return potential_matches[session["page"]][1:]
 
 
 @app.route('/dashboard', methods=["GET", "POST"])
 def dashboard():
+    global potential_matches
     if "id" not in session:
         return redirect(url_for('login'))
 
     if request.method == "POST":
         decision = request.form.get("decision")
         if decision == "Match":
-            ...  # Add entry to like table saying interested
+            FindLikes(session['id'])
         else:
             ...  # Add entry to like table saying not interested
 
@@ -118,21 +119,26 @@ def dashboard():
         session["page"] += 1
     else:
         session["page"] = 0
-    # Run query to get potential matches here and add to potential_matches list
+
+    potential_matches = FindMatches(session["id"]).PotentialMatches()
     if len(potential_matches) > session["page"]:
         name, gender, age, distance = get_information()
         return render_template('two/dashboard.html', name=name, gender=gender, age=age, distance=distance)
     else:
         potential_matches.clear()
-
+        # ----------------------------------------------------------------------
         session.pop("page", None)
         return render_template('two/dashboard.html', end=True)
 
 
 @app.route('/requests', methods=["GET", "POST"])
 def requests():
+    global likes
     if "id" not in session:
         return redirect(url_for('login'))
+
+    likes = GetRequest(session['id']).FindRequests()
+
     if request.method == "POST":
         selected = None
         for i in range(len(likes)):
@@ -142,10 +148,14 @@ def requests():
                 continue
             else:
                 selected = i
-        likes.pop(selected) if selected is not None else flash("Choose a decision before pressing submit", "danger")
+        if selected is not None:
+            likes.pop(selected)
+            a = FindLikes(session['id'], likes[selected][0]).Like()
+        else:
+            flash("Choose a decision before pressing submit", "danger")
 
         # Do query to insert here
-    # Query to get their likes
+
     end = False
     if not likes:
         end = True
@@ -154,6 +164,7 @@ def requests():
 
 @app.route('/matches', methods=["GET"])
 def matches():
+    global matched
     if "id" not in session:
         return redirect(url_for('login'))
     return render_template('two/matches.html', matches=matched)
@@ -161,10 +172,11 @@ def matches():
 
 @app.route('/profile', methods=["GET"])
 def profile():
+    global logged_user
     if "id" not in session:
         return redirect(url_for('login'))
-    # Select query to get details
-    name, age, s_d, location, role, email, gender, number, password = exampleUser[1:]
+
+    name, age, s_d, location, role, email, gender, number, password = logged_user[1:]
     if role == "Disabled":
         s_d = "Disability: " + s_d
     else:

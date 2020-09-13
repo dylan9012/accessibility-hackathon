@@ -1,5 +1,5 @@
 import MySQLdb
-from codes_to_km import GreatCircleDistance
+from tools.codes_to_km import GreatCircleDistance
 
 class GetRequest:
 

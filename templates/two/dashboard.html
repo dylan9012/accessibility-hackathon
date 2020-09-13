@@ -5,7 +5,14 @@
     {% if not end %}
         <div class="container bootstrap snippets">
             <div style="text-align: center;"><br/>
-                <img class="img-thumbnail" src="/static/{{ gender }}.jpg">
+                {% if gender == "Male" %}
+                    {% set link = "https://media.discordapp.net/attachments/500346908041150506/754803721786884226/male.jpg" %}
+                {% elif gender == "Female" %}
+                    {% set link = "https://media.discordapp.net/attachments/500346908041150506/754803744188923904/female.jpg" %}
+                {% else %}
+                    {% set link = "https://media.discordapp.net/attachments/500346908041150506/754803762488410202/other.jpg" %}
+                {% endif %}
+                <img class="img-thumbnail" src={{ link }}>
                 <p>
                     Name: {{ name }} <br/>
                     Gender: {{ gender }} <br/>
