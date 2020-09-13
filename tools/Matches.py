@@ -37,9 +37,7 @@ class FindMatches:
                 pass
 
         for i in potentials1:
-            i.append(GreatCircleDistance(UserValues[0], i[0]))
-
-        print(potentials1)
+            i.append(GreatCircleDistance(UserValues[0], i[0]).get_distance())
 
         finalmatches = []
 
