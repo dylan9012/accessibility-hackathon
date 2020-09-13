@@ -1,5 +1,5 @@
 import MySQLdb
-from codes_to_km import GreatCircleDistance
+
 
 class FindMatches:
 
@@ -21,11 +21,15 @@ class FindMatches:
         cur.execute('SET CHARACTER SET utf8;')
         cur.execute('SET character_set_connection=utf8;')
 
-        cur.execute('SELECT Location, Max_distance, Needs_or_specialty, UserID, Carer_or_client FROM Account WHERE UserID = ' + str(id) + ';')
+        cur.execute(
+            'SELECT Location, Max_distance, Needs_or_specialty, UserID, Carer_or_client FROM Account WHERE UserID = ' + str(
+                id) + ';')
         r = cur.fetchall()
         UserValues = list(r[0])
 
-        cur.execute('SELECT Location, max_distance, Needs_or_specialty, UserID, age, gender FROM Account WHERE Needs_or_specialty = "' + UserValues[2] + '" AND Carer_or_client != ' + UserValues[4] + ';')
+        cur.execute(
+            'SELECT Location, max_distance, Needs_or_specialty, UserID, age, gender FROM Account WHERE Needs_or_specialty = "' +
+            UserValues[2] + '" AND Carer_or_client != ' + UserValues[4] + ';')
         s = cur.fetchall()
         potentials1 = [list(i) for i in s]
 
@@ -35,7 +39,6 @@ class FindMatches:
                 break
             else:
                 pass
-
 
         '''
         for i in potentials1:
@@ -47,7 +50,6 @@ class FindMatches:
         potentials1[0].append(0)
         potentials1[1].append(3)
 
-
         finalmatches = []
 
         for q in potentials1:
@@ -57,6 +59,7 @@ class FindMatches:
         return finalmatches
 
         db.close()
+
 
 if __name__ == "__main__":
     pass

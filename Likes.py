@@ -1,12 +1,13 @@
 import MySQLdb
 
+
 class FindLikes:
 
     def __init__(self, LikerID, LikedID):
         self.LikerID = LikerID
         self.LikedID = LikedID
 
-    def Like (self):
+    def Like(self):
 
         db = MySQLdb.connect(host='dylan9012.mysql.pythonanywhere-services.com',
                              user='dylan9012',
@@ -21,12 +22,11 @@ class FindLikes:
         cur.execute('SET CHARACTER SET utf8;')
         cur.execute('SET character_set_connection=utf8;')
 
-
-        cur.execute('INSERT INTO Likes VALUES (' + self.LikerID +', ' + self.LikedID + ', true);')
+        cur.execute('INSERT INTO Likes VALUES (' + self.LikerID + ', ' + self.LikedID + ', true);')
         db.commit()
 
-
-        cur.execute('SELECT UserID_of_liked, UserID FROM Likes WHERE UserID = ' + self.LikedID + ' AND UserID_of_liked = ' + self.LikerID + ';')
+        cur.execute(
+            'SELECT UserID_of_liked, UserID FROM Likes WHERE UserID = ' + self.LikedID + ' AND UserID_of_liked = ' + self.LikerID + ';')
 
         result = cur.fetchall()
 
@@ -42,8 +42,7 @@ class FindLikes:
         else:
             db.close()
             return False
-        
+
+
 if __name__ == "__main__":
     pass
-    
-

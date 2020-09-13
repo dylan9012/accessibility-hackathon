@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 
-# import MySQLdb
-
 app = Flask(__name__)
 wsgi_app = app.wsgi_app
 app.secret_key = 'e471e07eb0c2977afd4f398907cb78f8'
@@ -58,10 +56,10 @@ def signup():
         for i in (name, age, number, gender, email, password, postcode, role, s_d, ranges):
             if not i or i == "Select":
                 flash("Please fill in all fields", "danger")
-                return render_template('one/signup.html', name=name, user_age=age, number=number, s_d=s_d,
-                                       gender=gender, email=email, postcode=postcode, role=role, ranges=ranges)
+                return render_template('one/signup.html', name=name, number=number, email=email, postcode=postcode,
+                                       ranges=ranges)
 
-        # - Check if email already used
+        # Check if email already used
 
         flash("Sign up has succeeded, please login", "success")
         return redirect(url_for('login'))
@@ -78,7 +76,8 @@ def login():
                 flash("Please fill in all fields", "danger")
                 return render_template('one/login.html', email=email)
 
-        if email in exampleUser and password in exampleUser:  # - Replace this with db query
+        if email in exampleUser and password in exampleUser:  # Replace this with db query
+            # Add to user list
             session['id'] = exampleUser[0]
             return redirect(request.args.get("dashboard") or url_for("dashboard"))
         else:
@@ -111,20 +110,21 @@ def dashboard():
     if request.method == "POST":
         decision = request.form.get("decision")
         if decision == "Match":
-            ...  # - Add to match table
+            ...  # Add entry to like table saying interested
         else:
-            ...  # - Add entry to like table saying not interested
+            ...  # Add entry to like table saying not interested
 
     if "page" in session:
         session["page"] += 1
     else:
         session["page"] = 0
-    # - Run query to get potential matches here
+    # Run query to get potential matches here and add to potential_matches list
     if len(potential_matches) > session["page"]:
         name, gender, age, distance = get_information()
         return render_template('two/dashboard.html', name=name, gender=gender, age=age, distance=distance)
     else:
-        potential_matches.clear()  # - How often do we query the database for matches: Each login
+        potential_matches.clear()
+
         session.pop("page", None)
         return render_template('two/dashboard.html', end=True)
 
@@ -144,8 +144,8 @@ def requests():
                 selected = i
         likes.pop(selected) if selected is not None else flash("Choose a decision before pressing submit", "danger")
 
-        # - Do query to insert here
-    # - Query to get their likes
+        # Do query to insert here
+    # Query to get their likes
     end = False
     if not likes:
         end = True
@@ -163,7 +163,7 @@ def matches():
 def profile():
     if "id" not in session:
         return redirect(url_for('login'))
-    # - Select query to get details
+    # Select query to get details
     name, age, s_d, location, role, email, gender, number, password = exampleUser[1:]
     if role == "Disabled":
         s_d = "Disability: " + s_d
